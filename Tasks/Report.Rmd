@@ -291,3 +291,75 @@ summary(usedcars$mileage)
 ```
 
 ## Задание 5. Визуализация данных в R.
+
+1. Рассмотрим диаграмму размаха для данных о цене и пробеге подержанных автомобилей. Чтобы получить диаграмму размаха для переменной, воспользуемся функцией boxplot().
+
+```{r}
+boxplot(usedcars$price, main = "Boxplot of Used Car Prices", ylab = "Price ($)")
+```
+```{r}
+boxplot(usedcars$mileage, main = "Boxplot of Used Car Mileage", ylab = "Odometer (mi.)")
+```
+
+2. Для того чтобы построить гистограмму для данных о цене и пробеге подержанных автомобилей, можно воспользоваться функцией hist().
+
+```{r}
+hist(usedcars$price, main = "Histogram of Used Car Prices", xlab = "Price ($)")
+```
+```{r}
+hist(usedcars$mileage, main = "Histogram of Used Car Mileage", xlab = "Odometer (mi.)")
+```
+
+3. В R для вычисления дисперсии и стандартного отклонения используются функции var() и sd().
+
+```{r}
+print(var(usedcars$price))
+print(sd(usedcars$price))
+print(var(usedcars$mileage))
+print(sd(usedcars$mileage))
+```
+
+4. Чтобы построить таблицу частотности для данных о подержанном автомобиле, можно воспользоваться функцией table()
+
+```{r}
+print(table(usedcars$year))
+print(table(usedcars$model))
+print(table(usedcars$color))
+```
+
+5. R также позволяет вычислить пропорции таблицы напрямую, с помощью команды prop.table() для таблицы, созданной функцией table()
+
+```{r}
+model_table <- table(usedcars$model)
+prop.table(model_table)
+```
+
+6. Результаты prop.table() можно объединять с другими функциями R для представления вывода в другой форме. Предположим, что мы хотим отобразить результаты в процентах с одним десятичным знаком.
+
+```{r}
+color_table <- table(usedcars$color)
+color_pct <- prop.table(color_table) * 100
+round(color_pct, digits = 1)
+```
+
+7. Чтобы ответить на вопрос о соотношении цены и пробега, построим диаграмму разброса. Для этого воспользуемся функцией plot() с параметрами main, xlab и ylab.
+
+```{r}
+plot(x = usedcars$mileage, y = usedcars$price,
+     main = "Scatterplot of Price vs. Mileage", 
+     xlab = "Odometer", ylab = "Price")
+```
+
+8. Прежде чем приступить к анализу, упростим наш проект, сократив количество уровней в переменной color. Исследуя результат выполнения функции table() для нашей новой переменной, можно увидеть, что примерно две трети автомобилей имеют консервативные цвета, а одна треть — нет.
+
+```{r}
+usedcars$conservative <- usedcars$color %in% c("Black", "Gray", "Silver", "White")
+table(usedcars$conservative)
+```
+
+9. Теперь посмотрим на кросс-таблицу, чтобы увидеть, как количество автомобилей консервативных цветов зависит от модели.
+
+```{r}
+library("gmodels")
+CrossTable(x = usedcars$model, y = usedcars$conservative) 
+```

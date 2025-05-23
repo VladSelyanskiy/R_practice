@@ -43,11 +43,6 @@ print(confusion_matrix)
 mean(correct)
 confusion_matrix$byClass["F1"]
 
-mean(correct)
-0.9588122
-F1 
-0.9776813 
-
 accuracy <- mean(my_df$correct)
 f1_score <- confusion_matrix$byClass["F1"]
 
